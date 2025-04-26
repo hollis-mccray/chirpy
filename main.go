@@ -9,8 +9,8 @@ import (
 	"os"
 	"sync/atomic"
 
-	"github.com/joho/godotenv"
 	"github.com/hollis-mccray/chirpy/internal/database"
+	"github.com/joho/godotenv"
 )
 
 type apiConfig struct {
@@ -41,9 +41,10 @@ func main()  {
 	const port = ":8080"
 	mux := http.NewServeMux()
 	mux.Handle("/app/", http.StripPrefix("/app", apiCfg.middlewareMetricsInc(http.FileServer(http.Dir(filepathRoot)))))
-	mux.HandleFunc("GET /api/healthz",handlerReady)
+	mux.HandleFunc("POST /api/chirps", apiCfg.handlerNewChirp)
+	mux.HandleFunc("GET /api/chirps", apiCfg.listAllChirps)
+	mux.HandleFunc("GET /api/healthz", handlerReady)
 	mux.HandleFunc("POST /api/users", apiCfg.handlerNewUser)
-	mux.HandleFunc("POST /api/validate_chirp", handlerValidate)
 	mux.HandleFunc("GET /admin/metrics",apiCfg.handlerMetrics)
 	mux.HandleFunc("POST /admin/reset",apiCfg.handlerReset)
 	server := http.Server{
