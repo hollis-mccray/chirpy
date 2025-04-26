@@ -1,9 +1,9 @@
 package main
 
 import (
-	"log"
-	"net/http"
 	"encoding/json"
+	"net/http"
+	"strings"
 )
 
 func handlerValidate(w http.ResponseWriter, r *http.Request) {
@@ -12,34 +12,41 @@ func handlerValidate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	type response struct {
-		Message string `json:"error"`
-		Valid bool     `json:"valid"`
+		Body string `json:"cleaned_body"`
 	}
 
 	decoder := json.NewDecoder(r.Body)
 	params := parameters{}
 	err := decoder.Decode(&params)
 	if err != nil {
-		log.Printf("Error decoding parameters: %s", err)
-		w.WriteHeader(500)
+		respondWithError(w, http.StatusInternalServerError, "Couldn't decode parameters", err)
 		return
 	}
-	resp := response{}
-	var code int
-	if len(params.Body) > 140 {
-		code = 400
-		resp.Message = "Chirp is too long"
-	} else {
-		code = 200
-		resp.Valid = true
-	}
-	dat, err := json.Marshal(resp)
-	if err != nil {
-		log.Printf("Error marshalling JSON: %s", err)
-		w.WriteHeader(500)
+	
+	const maxChirpLength = 140
+	if len(params.Body) > maxChirpLength {
+		respondWithError(w, http.StatusBadRequest, "Chirp is too long", nil)
 		return
 	}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(code)
-	w.Write(dat)
+
+	respondWithJSON(w, http.StatusOK, response{
+		Body: contentFilter(params.Body),
+	})
+}
+
+func contentFilter(s string) string {
+	words := strings.Split(s, " ")
+	bad_words := []string {
+		"kerfuffle", "sharbert", "fornax",
+	}
+
+	for i, word := range(words) {
+		lowerCase := strings.ToLower(word)
+		for _, bad_word := range bad_words{
+			if lowerCase == bad_word {
+				words[i] = "****"
+			}
+		}
+	}
+	return strings.Join(words, " ")
 }
