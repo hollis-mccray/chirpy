@@ -7,7 +7,6 @@ import (
 	
 	"github.com/google/uuid"
 	"github.com/hollis-mccray/chirpy/internal/database"
-	"fmt"
 )
 
 func (cfg *apiConfig) handlerNewChirp(w http.ResponseWriter, r *http.Request) {
@@ -73,6 +72,33 @@ func contentFilter(s string) string {
 		}
 	}
 	return strings.Join(words, " ")
+}
+
+func (cfg *apiConfig) handlerGetChirp(w http.ResponseWriter, r *http.Request)  {
+	id, err := uuid.Parse(r.PathValue("chirpID"))
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, "Invalid ID", err)
+		return
+	}
+
+	response, err := cfg.db.GetChirp(r.Context(), id)
+	if err != nil {
+		respondWithError(w, http.StatusNotFound, "Chirp not foundy", err)
+		return
+	}
+
+	chirp :=  Chirp {
+		ID: 		response.ID,
+		CreatedAt: 	response.CreatedAt,
+		UpdatedAt:	response.UpdatedAt,
+		Body:		response.Body,
+		UserID:		uuid.NullUUID{
+			UUID: response.UserID.UUID,
+			Valid: true,
+		},
+	}
+
+	respondWithJSON(w, http.StatusOK, chirp)
 }
 
 func (cfg *apiConfig) listAllChirps(w http.ResponseWriter, r *http.Request) {
