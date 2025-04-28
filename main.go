@@ -1,7 +1,5 @@
 package main
 
-import _ "github.com/lib/pq"
-
 import (
 	"database/sql"
 	"log"
@@ -11,15 +9,16 @@ import (
 
 	"github.com/hollis-mccray/chirpy/internal/database"
 	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 )
 
 type apiConfig struct {
 	fileserverHits atomic.Int32
-	db *database.Queries
-	platform string
+	db             *database.Queries
+	platform       string
 }
 
-func main()  {
+func main() {
 	apiCfg := apiConfig{}
 	godotenv.Load()
 
@@ -45,9 +44,10 @@ func main()  {
 	mux.HandleFunc("GET /api/chirps", apiCfg.listAllChirps)
 	mux.HandleFunc("GET /api/chirps/{chirpID}", apiCfg.handlerGetChirp)
 	mux.HandleFunc("GET /api/healthz", handlerReady)
+	mux.HandleFunc("POST /api/login", apiCfg.handlerLogin)
 	mux.HandleFunc("POST /api/users", apiCfg.handlerNewUser)
-	mux.HandleFunc("GET /admin/metrics",apiCfg.handlerMetrics)
-	mux.HandleFunc("POST /admin/reset",apiCfg.handlerReset)
+	mux.HandleFunc("GET /admin/metrics", apiCfg.handlerMetrics)
+	mux.HandleFunc("POST /admin/reset", apiCfg.handlerReset)
 	server := http.Server{
 		Addr:    port,
 		Handler: mux,
