@@ -6,14 +6,14 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
+	"github.com/hollis-mccray/chirpy/internal/auth"
 	"github.com/hollis-mccray/chirpy/internal/database"
 )
 
 func (cfg *apiConfig) handlerNewChirp(w http.ResponseWriter, r *http.Request) {
 
 	type parameters struct {
-		Body   string    `json:"body"`
-		UserID uuid.UUID `json:"user_id"`
+		Body string `json:"body"`
 	}
 
 	decoder := json.NewDecoder(r.Body)
@@ -21,6 +21,18 @@ func (cfg *apiConfig) handlerNewChirp(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&params)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, "Error decoding request", err)
+		return
+	}
+
+	token, err := auth.GetBearerToken(r.Header)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "Error decoding request", err)
+		return
+	}
+
+	id, err := auth.ValidateJWT(token, cfg.jwtkey)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "invalid auth token", err)
 		return
 	}
 
@@ -35,7 +47,7 @@ func (cfg *apiConfig) handlerNewChirp(w http.ResponseWriter, r *http.Request) {
 	response, err := cfg.db.CreateChirp(r.Context(), database.CreateChirpParams{
 		Body: cleanText,
 		UserID: uuid.NullUUID{
-			UUID:  params.UserID,
+			UUID:  id,
 			Valid: true,
 		},
 	})
@@ -50,7 +62,7 @@ func (cfg *apiConfig) handlerNewChirp(w http.ResponseWriter, r *http.Request) {
 		UpdatedAt: response.UpdatedAt,
 		Body:      response.Body,
 		UserID: uuid.NullUUID{
-			UUID:  response.UserID.UUID,
+			UUID:  id,
 			Valid: true,
 		},
 	})

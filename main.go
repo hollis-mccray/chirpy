@@ -5,25 +5,19 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"sync/atomic"
 
 	"github.com/hollis-mccray/chirpy/internal/database"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
-type apiConfig struct {
-	fileserverHits atomic.Int32
-	db             *database.Queries
-	platform       string
-}
-
 func main() {
 	apiCfg := apiConfig{}
 	godotenv.Load()
 
-	//Set our platform
+	//Load environmental variables
 	apiCfg.platform = os.Getenv("PLATFORM")
+	apiCfg.jwtkey = os.Getenv("JWTKEY")
 
 	//Database connection setup
 	dbURL := os.Getenv("DB_URL")
