@@ -6,8 +6,100 @@
   Response Body: 
 Server state reset
   Variables available: 
-   - saulAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiJlYTc0N2Q3MC1jY2UwLTRiN2EtODRlNS1kMjQ5OWM3ZGM2MzEiLCJleHAiOjE3NDYwNDE5MDgsImlhdCI6MTc0NjAzODMwOH0.8WucBpi-NO61yLe5vOaqJw8m5T6OWEubfvOvd4SfRPc
-   - saulRefreshToken: 1fa1a2df156a8920fe6c4c8d685597a5c24dad983c14329f6ffecb20a5e025de
+   - walterAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI2Y2FmNDc4NS0xYjhhLTQ0MTEtYjIwOS1jNzRlMDQ4OTg4NzQiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.MhbNvj-gY2gYJNSfRnRU4NRjrSSshK4S_HE7QVA1lg0
+   - chirpID: a63e4755-17bc-4fe0-a76d-e8362eca5511
+   - saulAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI1MTg2MDIxOS1lYjAzLTQ1MDYtYTVjZS0xYjIyNTQ0MWU5ZWUiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.3isAm-6IUKggtFFMHn295mpaL3mGtwpgzDtsVY-Xahc
+
+╭──────────────────────────────────────╮
+│ POST http://localhost:8080/api/users │
+╰┬─────────────────────────────────────╯
+ ├─  ?  Expecting status code: 201
+ ├─  ?  Expecting JSON at .email to be equal to walt@breakingbad.com
+  Response Status Code: 201
+  Response Body: 
+{
+  "created_at": "2025-04-30T15:52:46.686868Z",
+  "email": "walt@breakingbad.com",
+  "id": "6caf4785-1b8a-4411-b209-c74e04898874",
+  "refresh_token": "",
+  "token": "",
+  "updated_at": "2025-04-30T15:52:46.686868Z"
+}
+  Variables available: 
+   - walterAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI2Y2FmNDc4NS0xYjhhLTQ0MTEtYjIwOS1jNzRlMDQ4OTg4NzQiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.MhbNvj-gY2gYJNSfRnRU4NRjrSSshK4S_HE7QVA1lg0
+   - chirpID: a63e4755-17bc-4fe0-a76d-e8362eca5511
+   - saulAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI1MTg2MDIxOS1lYjAzLTQ1MDYtYTVjZS0xYjIyNTQ0MWU5ZWUiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.3isAm-6IUKggtFFMHn295mpaL3mGtwpgzDtsVY-Xahc
+
+╭──────────────────────────────────────╮
+│ POST http://localhost:8080/api/login │
+╰┬─────────────────────────────────────╯
+ ├─  ?  Expecting status code: 200
+ ├─  *  Saving `walterAccessToken` from `.token`
+  Response Status Code: 200
+  Response Body: 
+{
+  "created_at": "2025-04-30T15:52:46.686868Z",
+  "email": "walt@breakingbad.com",
+  "id": "6caf4785-1b8a-4411-b209-c74e04898874",
+  "refresh_token": "8ce99c5f0c650bf913dc72d28e7236b8e9a661cd4189321af06707cc91054c93",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI2Y2FmNDc4NS0xYjhhLTQ0MTEtYjIwOS1jNzRlMDQ4OTg4NzQiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.MhbNvj-gY2gYJNSfRnRU4NRjrSSshK4S_HE7QVA1lg0",
+  "updated_at": "2025-04-30T15:52:46.686868Z"
+}
+  Variables available: 
+   - chirpID: a63e4755-17bc-4fe0-a76d-e8362eca5511
+   - saulAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI1MTg2MDIxOS1lYjAzLTQ1MDYtYTVjZS0xYjIyNTQ0MWU5ZWUiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.3isAm-6IUKggtFFMHn295mpaL3mGtwpgzDtsVY-Xahc
+   - walterAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI2Y2FmNDc4NS0xYjhhLTQ0MTEtYjIwOS1jNzRlMDQ4OTg4NzQiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.MhbNvj-gY2gYJNSfRnRU4NRjrSSshK4S_HE7QVA1lg0
+
+╭───────────────────────────────────────╮
+│ POST http://localhost:8080/api/chirps │
+╰┬──────────────────────────────────────╯
+ ├─  ?  Expecting status code: 201
+ ├─  *  Saving `chirpID` from `.id`
+  Response Status Code: 201
+  Response Body: 
+{
+  "body": "I did it for me. I liked it. I was good at it. And I was really... I was alive.",
+  "created_at": "2025-04-30T15:52:46.738962Z",
+  "id": "a63e4755-17bc-4fe0-a76d-e8362eca5511",
+  "updated_at": "2025-04-30T15:52:46.738962Z",
+  "user_id": "6caf4785-1b8a-4411-b209-c74e04898874"
+}
+  Variables available: 
+   - walterAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI2Y2FmNDc4NS0xYjhhLTQ0MTEtYjIwOS1jNzRlMDQ4OTg4NzQiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.MhbNvj-gY2gYJNSfRnRU4NRjrSSshK4S_HE7QVA1lg0
+   - chirpID: a63e4755-17bc-4fe0-a76d-e8362eca5511
+   - saulAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI1MTg2MDIxOS1lYjAzLTQ1MDYtYTVjZS0xYjIyNTQ0MWU5ZWUiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.3isAm-6IUKggtFFMHn295mpaL3mGtwpgzDtsVY-Xahc
+
+╭───────────────────────────────────────────────────────────────────────────╮
+│ GET http://localhost:8080/api/chirps/a63e4755-17bc-4fe0-a76d-e8362eca5511 │
+╰┬──────────────────────────────────────────────────────────────────────────╯
+ ├─  ?  Expecting status code: 200
+  Response Status Code: 200
+  Response Body: 
+{
+  "body": "I did it for me. I liked it. I was good at it. And I was really... I was alive.",
+  "created_at": "2025-04-30T15:52:46.738962Z",
+  "id": "a63e4755-17bc-4fe0-a76d-e8362eca5511",
+  "updated_at": "2025-04-30T15:52:46.738962Z",
+  "user_id": "6caf4785-1b8a-4411-b209-c74e04898874"
+}
+  Variables available: 
+   - walterAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI2Y2FmNDc4NS0xYjhhLTQ0MTEtYjIwOS1jNzRlMDQ4OTg4NzQiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.MhbNvj-gY2gYJNSfRnRU4NRjrSSshK4S_HE7QVA1lg0
+   - chirpID: a63e4755-17bc-4fe0-a76d-e8362eca5511
+   - saulAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI1MTg2MDIxOS1lYjAzLTQ1MDYtYTVjZS0xYjIyNTQ0MWU5ZWUiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.3isAm-6IUKggtFFMHn295mpaL3mGtwpgzDtsVY-Xahc
+
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ DELETE http://localhost:8080/api/chirps/a63e4755-17bc-4fe0-a76d-e8362eca5511 │
+╰┬─────────────────────────────────────────────────────────────────────────────╯
+ ├─  ?  Expecting status code: 401
+  Response Status Code: 401
+  Response Body: 
+{
+  "error": "Unauthorized"
+}
+  Variables available: 
+   - walterAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI2Y2FmNDc4NS0xYjhhLTQ0MTEtYjIwOS1jNzRlMDQ4OTg4NzQiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.MhbNvj-gY2gYJNSfRnRU4NRjrSSshK4S_HE7QVA1lg0
+   - chirpID: a63e4755-17bc-4fe0-a76d-e8362eca5511
+   - saulAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI1MTg2MDIxOS1lYjAzLTQ1MDYtYTVjZS0xYjIyNTQ0MWU5ZWUiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.3isAm-6IUKggtFFMHn295mpaL3mGtwpgzDtsVY-Xahc
 
 ╭──────────────────────────────────────╮
 │ POST http://localhost:8080/api/users │
@@ -17,115 +109,75 @@ Server state reset
   Response Status Code: 201
   Response Body: 
 {
-  "created_at": "2025-04-30T11:38:28.864065Z",
+  "created_at": "2025-04-30T15:52:46.790329Z",
   "email": "saul@bettercall.com",
-  "id": "ea747d70-cce0-4b7a-84e5-d2499c7dc631",
+  "id": "51860219-eb03-4506-a5ce-1b225441e9ee",
   "refresh_token": "",
   "token": "",
-  "updated_at": "2025-04-30T11:38:28.864065Z"
+  "updated_at": "2025-04-30T15:52:46.790329Z"
 }
   Variables available: 
-   - saulAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiJlYTc0N2Q3MC1jY2UwLTRiN2EtODRlNS1kMjQ5OWM3ZGM2MzEiLCJleHAiOjE3NDYwNDE5MDgsImlhdCI6MTc0NjAzODMwOH0.8WucBpi-NO61yLe5vOaqJw8m5T6OWEubfvOvd4SfRPc
-   - saulRefreshToken: 1fa1a2df156a8920fe6c4c8d685597a5c24dad983c14329f6ffecb20a5e025de
+   - walterAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI2Y2FmNDc4NS0xYjhhLTQ0MTEtYjIwOS1jNzRlMDQ4OTg4NzQiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.MhbNvj-gY2gYJNSfRnRU4NRjrSSshK4S_HE7QVA1lg0
+   - chirpID: a63e4755-17bc-4fe0-a76d-e8362eca5511
+   - saulAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI1MTg2MDIxOS1lYjAzLTQ1MDYtYTVjZS0xYjIyNTQ0MWU5ZWUiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.3isAm-6IUKggtFFMHn295mpaL3mGtwpgzDtsVY-Xahc
 
 ╭──────────────────────────────────────╮
 │ POST http://localhost:8080/api/login │
 ╰┬─────────────────────────────────────╯
  ├─  ?  Expecting status code: 200
  ├─  *  Saving `saulAccessToken` from `.token`
- ├─  *  Saving `saulRefreshToken` from `.refresh_token`
   Response Status Code: 200
   Response Body: 
 {
-  "created_at": "2025-04-30T11:38:28.864065Z",
+  "created_at": "2025-04-30T15:52:46.790329Z",
   "email": "saul@bettercall.com",
-  "id": "ea747d70-cce0-4b7a-84e5-d2499c7dc631",
-  "refresh_token": "1fa1a2df156a8920fe6c4c8d685597a5c24dad983c14329f6ffecb20a5e025de",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiJlYTc0N2Q3MC1jY2UwLTRiN2EtODRlNS1kMjQ5OWM3ZGM2MzEiLCJleHAiOjE3NDYwNDE5MDgsImlhdCI6MTc0NjAzODMwOH0.8WucBpi-NO61yLe5vOaqJw8m5T6OWEubfvOvd4SfRPc",
-  "updated_at": "2025-04-30T11:38:28.864065Z"
+  "id": "51860219-eb03-4506-a5ce-1b225441e9ee",
+  "refresh_token": "f3e7bae9297a8c36758e1a56247b47b10c9ca1532525afaaa1f7ed113ddeda50",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI1MTg2MDIxOS1lYjAzLTQ1MDYtYTVjZS0xYjIyNTQ0MWU5ZWUiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.3isAm-6IUKggtFFMHn295mpaL3mGtwpgzDtsVY-Xahc",
+  "updated_at": "2025-04-30T15:52:46.790329Z"
 }
   Variables available: 
-   - saulRefreshToken: 1fa1a2df156a8920fe6c4c8d685597a5c24dad983c14329f6ffecb20a5e025de
-   - saulAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiJlYTc0N2Q3MC1jY2UwLTRiN2EtODRlNS1kMjQ5OWM3ZGM2MzEiLCJleHAiOjE3NDYwNDE5MDgsImlhdCI6MTc0NjAzODMwOH0.8WucBpi-NO61yLe5vOaqJw8m5T6OWEubfvOvd4SfRPc
+   - walterAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI2Y2FmNDc4NS0xYjhhLTQ0MTEtYjIwOS1jNzRlMDQ4OTg4NzQiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.MhbNvj-gY2gYJNSfRnRU4NRjrSSshK4S_HE7QVA1lg0
+   - chirpID: a63e4755-17bc-4fe0-a76d-e8362eca5511
+   - saulAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI1MTg2MDIxOS1lYjAzLTQ1MDYtYTVjZS0xYjIyNTQ0MWU5ZWUiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.3isAm-6IUKggtFFMHn295mpaL3mGtwpgzDtsVY-Xahc
 
-╭───────────────────────────────────────╮
-│ POST http://localhost:8080/api/chirps │
-╰┬──────────────────────────────────────╯
- ├─  ?  Expecting status code: 401
-  Response Status Code: 401
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ DELETE http://localhost:8080/api/chirps/a63e4755-17bc-4fe0-a76d-e8362eca5511 │
+╰┬─────────────────────────────────────────────────────────────────────────────╯
+ ├─  ?  Expecting status code: 403
+  Response Status Code: 403
   Response Body: 
 {
-  "error": "unauthorized"
+  "error": "Forbidden"
 }
   Variables available: 
-   - saulAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiJlYTc0N2Q3MC1jY2UwLTRiN2EtODRlNS1kMjQ5OWM3ZGM2MzEiLCJleHAiOjE3NDYwNDE5MDgsImlhdCI6MTc0NjAzODMwOH0.8WucBpi-NO61yLe5vOaqJw8m5T6OWEubfvOvd4SfRPc
-   - saulRefreshToken: 1fa1a2df156a8920fe6c4c8d685597a5c24dad983c14329f6ffecb20a5e025de
+   - walterAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI2Y2FmNDc4NS0xYjhhLTQ0MTEtYjIwOS1jNzRlMDQ4OTg4NzQiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.MhbNvj-gY2gYJNSfRnRU4NRjrSSshK4S_HE7QVA1lg0
+   - chirpID: a63e4755-17bc-4fe0-a76d-e8362eca5511
+   - saulAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI1MTg2MDIxOS1lYjAzLTQ1MDYtYTVjZS0xYjIyNTQ0MWU5ZWUiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.3isAm-6IUKggtFFMHn295mpaL3mGtwpgzDtsVY-Xahc
 
-╭───────────────────────────────────────╮
-│ POST http://localhost:8080/api/chirps │
-╰┬──────────────────────────────────────╯
- ├─  ?  Expecting status code: 201
-  Response Status Code: 201
-  Response Body: 
-{
-  "body": "Let’s just say I know a guy... who knows a guy... who knows another guy.",
-  "created_at": "2025-04-30T11:38:28.917805Z",
-  "id": "f948b506-587e-42ae-af30-164d30162734",
-  "updated_at": "2025-04-30T11:38:28.917805Z",
-  "user_id": "ea747d70-cce0-4b7a-84e5-d2499c7dc631"
-}
-  Variables available: 
-   - saulAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiJlYTc0N2Q3MC1jY2UwLTRiN2EtODRlNS1kMjQ5OWM3ZGM2MzEiLCJleHAiOjE3NDYwNDE5MDgsImlhdCI6MTc0NjAzODMwOH0.8WucBpi-NO61yLe5vOaqJw8m5T6OWEubfvOvd4SfRPc
-   - saulRefreshToken: 1fa1a2df156a8920fe6c4c8d685597a5c24dad983c14329f6ffecb20a5e025de
-
-╭────────────────────────────────────────╮
-│ POST http://localhost:8080/api/refresh │
-╰┬───────────────────────────────────────╯
- ├─  ?  Expecting status code: 200
- ├─  *  Saving `saulAccessToken2` from `.token`
-  Response Status Code: 401
-  Response Body: 
-{
-  "error": "Unauthorized"
-}
-  Variables available: 
-   - saulAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiJlYTc0N2Q3MC1jY2UwLTRiN2EtODRlNS1kMjQ5OWM3ZGM2MzEiLCJleHAiOjE3NDYwNDE5MDgsImlhdCI6MTc0NjAzODMwOH0.8WucBpi-NO61yLe5vOaqJw8m5T6OWEubfvOvd4SfRPc
-   - saulRefreshToken: 1fa1a2df156a8920fe6c4c8d685597a5c24dad983c14329f6ffecb20a5e025de
-
-╭───────────────────────────────────────╮
-│ POST http://localhost:8080/api/chirps │
-╰┬──────────────────────────────────────╯
- ├─  ?  Expecting status code: 201
-  Response Status Code: 401
-  Response Body: 
-{
-  "error": "unauthorized"
-}
-  Variables available: 
-   - saulAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiJlYTc0N2Q3MC1jY2UwLTRiN2EtODRlNS1kMjQ5OWM3ZGM2MzEiLCJleHAiOjE3NDYwNDE5MDgsImlhdCI6MTc0NjAzODMwOH0.8WucBpi-NO61yLe5vOaqJw8m5T6OWEubfvOvd4SfRPc
-   - saulRefreshToken: 1fa1a2df156a8920fe6c4c8d685597a5c24dad983c14329f6ffecb20a5e025de
-
-╭───────────────────────────────────────╮
-│ POST http://localhost:8080/api/revoke │
-╰┬──────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ DELETE http://localhost:8080/api/chirps/a63e4755-17bc-4fe0-a76d-e8362eca5511 │
+╰┬─────────────────────────────────────────────────────────────────────────────╯
  ├─  ?  Expecting status code: 204
   Response Status Code: 204
   Response Body: 
 
   Variables available: 
-   - saulAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiJlYTc0N2Q3MC1jY2UwLTRiN2EtODRlNS1kMjQ5OWM3ZGM2MzEiLCJleHAiOjE3NDYwNDE5MDgsImlhdCI6MTc0NjAzODMwOH0.8WucBpi-NO61yLe5vOaqJw8m5T6OWEubfvOvd4SfRPc
-   - saulRefreshToken: 1fa1a2df156a8920fe6c4c8d685597a5c24dad983c14329f6ffecb20a5e025de
+   - saulAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI1MTg2MDIxOS1lYjAzLTQ1MDYtYTVjZS0xYjIyNTQ0MWU5ZWUiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.3isAm-6IUKggtFFMHn295mpaL3mGtwpgzDtsVY-Xahc
+   - walterAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI2Y2FmNDc4NS0xYjhhLTQ0MTEtYjIwOS1jNzRlMDQ4OTg4NzQiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.MhbNvj-gY2gYJNSfRnRU4NRjrSSshK4S_HE7QVA1lg0
+   - chirpID: a63e4755-17bc-4fe0-a76d-e8362eca5511
 
-╭────────────────────────────────────────╮
-│ POST http://localhost:8080/api/refresh │
-╰┬───────────────────────────────────────╯
- ├─  ?  Expecting status code: 401
-  Response Status Code: 401
+╭───────────────────────────────────────────────────────────────────────────╮
+│ GET http://localhost:8080/api/chirps/a63e4755-17bc-4fe0-a76d-e8362eca5511 │
+╰┬──────────────────────────────────────────────────────────────────────────╯
+ ├─  ?  Expecting status code: 404
+  Response Status Code: 404
   Response Body: 
 {
-  "error": "Unauthorized"
+  "error": "Chirp not found"
 }
   Variables available: 
-   - saulAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiJlYTc0N2Q3MC1jY2UwLTRiN2EtODRlNS1kMjQ5OWM3ZGM2MzEiLCJleHAiOjE3NDYwNDE5MDgsImlhdCI6MTc0NjAzODMwOH0.8WucBpi-NO61yLe5vOaqJw8m5T6OWEubfvOvd4SfRPc
-   - saulRefreshToken: 1fa1a2df156a8920fe6c4c8d685597a5c24dad983c14329f6ffecb20a5e025de
+   - walterAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI2Y2FmNDc4NS0xYjhhLTQ0MTEtYjIwOS1jNzRlMDQ4OTg4NzQiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.MhbNvj-gY2gYJNSfRnRU4NRjrSSshK4S_HE7QVA1lg0
+   - chirpID: a63e4755-17bc-4fe0-a76d-e8362eca5511
+   - saulAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiI1MTg2MDIxOS1lYjAzLTQ1MDYtYTVjZS0xYjIyNTQ0MWU5ZWUiLCJleHAiOjE3NDYwNTcxNjYsImlhdCI6MTc0NjA1MzU2Nn0.3isAm-6IUKggtFFMHn295mpaL3mGtwpgzDtsVY-Xahc
 
