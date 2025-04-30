@@ -32,7 +32,7 @@ func (cfg *apiConfig) handlerNewChirp(w http.ResponseWriter, r *http.Request) {
 
 	id, err := auth.ValidateJWT(token, cfg.jwtkey)
 	if err != nil {
-		respondWithError(w, http.StatusInternalServerError, "invalid auth token", err)
+		respondWithError(w, http.StatusUnauthorized, "unauthorized", err)
 		return
 	}
 

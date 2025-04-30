@@ -2,18 +2,18 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/hollis-mccray/chirpy/internal/auth"
+	"github.com/hollis-mccray/chirpy/internal/database"
 )
 
 func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 	type parameters struct {
 		Password string `json:"password"`
 		Email    string `json:"email"`
-		Expires  int    `json:"expires_in_seconds"`
 	}
 
 	decoder := json.NewDecoder(r.Body)
@@ -24,18 +24,37 @@ func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if params.Expires == 0 || params.Expires > 3600 {
-		params.Expires = 3600
-	}
-
 	response, err := cfg.db.UserByEmail(r.Context(), params.Email)
 	if err != nil {
 		respondWithError(w, http.StatusUnauthorized, "Incorrect email or password", err)
 		return
 	}
 
-	duration, _ := time.ParseDuration(fmt.Sprintf("%ds", params.Expires))
-	token, err := auth.MakeJWT(response.ID, cfg.jwtkey, duration)
+	token, err := auth.MakeJWT(response.ID, cfg.jwtkey, time.Hour)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "Error handling request", err)
+		return
+	}
+
+	refresh, err := auth.MakeRefreshToken()
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "Error handling request", err)
+		return
+	}
+
+	now := time.Now()
+	expires := now.Add(time.Hour * 1440)
+	refreshParams := database.CreateRefreshTokenParams{
+		Token:     refresh,
+		CreatedAt: now,
+		UpdatedAt: now,
+		UserID: uuid.NullUUID{
+			UUID:  response.ID,
+			Valid: true,
+		},
+		ExpiresAt: expires,
+	}
+	_, err = cfg.db.CreateRefreshToken(r.Context(), refreshParams)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, "Error handling request", err)
 		return
@@ -46,11 +65,12 @@ func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 		respondWithError(w, http.StatusUnauthorized, "Incorrect email or password", err)
 	} else {
 		respondWithJSON(w, http.StatusOK, User{
-			ID:        response.ID,
-			CreatedAt: response.CreatedAt,
-			UpdatedAt: response.UpdatedAt,
-			Email:     response.Email,
-			Token:     token,
+			ID:           response.ID,
+			CreatedAt:    response.CreatedAt,
+			UpdatedAt:    response.UpdatedAt,
+			Email:        response.Email,
+			Token:        token,
+			RefreshToken: refresh,
 		})
 	}
 }
