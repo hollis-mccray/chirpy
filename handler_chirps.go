@@ -113,7 +113,15 @@ func (cfg *apiConfig) handlerGetChirp(w http.ResponseWriter, r *http.Request) {
 }
 
 func (cfg *apiConfig) listAllChirps(w http.ResponseWriter, r *http.Request) {
-	response, err := cfg.db.ListAllChirps(r.Context())
+	id, err := uuid.Parse(r.URL.Query().Get("author_id"))
+
+	authorID := uuid.NullUUID{}
+	if err == nil {
+		authorID.UUID = id
+		authorID.Valid = true
+	}
+
+	response, err := cfg.db.ListAllChirps(r.Context(), authorID)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, "Database error", err)
 		return
