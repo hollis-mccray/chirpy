@@ -71,6 +71,7 @@ func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 			Email:        response.Email,
 			Token:        token,
 			RefreshToken: refresh,
+			IsChirpyRed:  response.IsChirpyRed,
 		})
 	}
 }

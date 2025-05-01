@@ -18,6 +18,7 @@ func main() {
 	//Load environmental variables
 	apiCfg.platform = os.Getenv("PLATFORM")
 	apiCfg.jwtkey = os.Getenv("JWTKEY")
+	apiCfg.polkaKey = os.Getenv("POLKA_KEY")
 
 	//Database connection setup
 	dbURL := os.Getenv("DB_URL")
@@ -40,6 +41,7 @@ func main() {
 	mux.HandleFunc("DELETE /api/chirps/{chirpID}", apiCfg.handlerDeleteChirp)
 	mux.HandleFunc("GET /api/healthz", handlerReady)
 	mux.HandleFunc("POST /api/login", apiCfg.handlerLogin)
+	mux.HandleFunc("POST /api/polka/webhooks", apiCfg.handlerPolka)
 	mux.HandleFunc("POST /api/refresh", apiCfg.handlerRefresh)
 	mux.HandleFunc("POST /api/revoke", apiCfg.handlerRevokeToken)
 	mux.HandleFunc("POST /api/users", apiCfg.handlerNewUser)

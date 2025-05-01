@@ -40,14 +40,26 @@ func (cfg *apiConfig) handlerNewUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	respondWithJSON(w, http.StatusCreated, User{
-		ID:        response.ID,
-		CreatedAt: response.CreatedAt,
-		UpdatedAt: response.UpdatedAt,
-		Email:     response.Email,
+		ID:          response.ID,
+		CreatedAt:   response.CreatedAt,
+		UpdatedAt:   response.UpdatedAt,
+		Email:       response.Email,
+		IsChirpyRed: response.IsChirpyRed,
 	})
 }
 
 func (cfg *apiConfig) handlerUpdateUser(w http.ResponseWriter, r *http.Request) {
+
+	apiKey, err := auth.GetAPIKey(r.Header)
+	if err != nil {
+		respondWithError(w, http.StatusUnauthorized, "Unauthorized", err)
+		return
+	}
+
+	if apiKey != cfg.polkaKey {
+		respondWithError(w, http.StatusUnauthorized, "Unauthorized", err)
+		return
+	}
 
 	token, err := auth.GetBearerToken(r.Header)
 	if err != nil {
@@ -80,22 +92,23 @@ func (cfg *apiConfig) handlerUpdateUser(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	updateParams := database.UpdateUserParams{
+	updateParams := database.UpdatePasswordParams{
 		ID:             userID,
 		Email:          params.Email,
 		HashedPassword: hashedPassword,
 	}
 
-	response, err := cfg.db.UpdateUser(r.Context(), updateParams)
+	response, err := cfg.db.UpdatePassword(r.Context(), updateParams)
 	if err != nil {
 		respondWithError(w, http.StatusUnauthorized, "Unauthorized", err)
 		return
 	}
 
 	respondWithJSON(w, http.StatusOK, User{
-		ID:        response.ID,
-		CreatedAt: response.CreatedAt,
-		UpdatedAt: response.UpdatedAt,
-		Email:     response.Email,
+		ID:          response.ID,
+		CreatedAt:   response.CreatedAt,
+		UpdatedAt:   response.UpdatedAt,
+		Email:       response.Email,
+		IsChirpyRed: response.IsChirpyRed,
 	})
 }
