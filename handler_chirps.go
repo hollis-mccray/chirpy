@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"sort"
 	"strings"
 
 	"github.com/google/uuid"
@@ -45,11 +46,8 @@ func (cfg *apiConfig) handlerNewChirp(w http.ResponseWriter, r *http.Request) {
 	cleanText := contentFilter(params.Body)
 
 	response, err := cfg.db.CreateChirp(r.Context(), database.CreateChirpParams{
-		Body: cleanText,
-		UserID: uuid.NullUUID{
-			UUID:  id,
-			Valid: true,
-		},
+		Body:   cleanText,
+		UserID: id,
 	})
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, "Database error", err)
@@ -61,10 +59,7 @@ func (cfg *apiConfig) handlerNewChirp(w http.ResponseWriter, r *http.Request) {
 		CreatedAt: response.CreatedAt,
 		UpdatedAt: response.UpdatedAt,
 		Body:      response.Body,
-		UserID: uuid.NullUUID{
-			UUID:  id,
-			Valid: true,
-		},
+		UserID:    response.UserID,
 	})
 }
 
@@ -103,44 +98,52 @@ func (cfg *apiConfig) handlerGetChirp(w http.ResponseWriter, r *http.Request) {
 		CreatedAt: response.CreatedAt,
 		UpdatedAt: response.UpdatedAt,
 		Body:      response.Body,
-		UserID: uuid.NullUUID{
-			UUID:  response.UserID.UUID,
-			Valid: true,
-		},
+		UserID:    response.UserID,
 	}
 
 	respondWithJSON(w, http.StatusOK, chirp)
 }
 
 func (cfg *apiConfig) listAllChirps(w http.ResponseWriter, r *http.Request) {
-	id, err := uuid.Parse(r.URL.Query().Get("author_id"))
 
-	authorID := uuid.NullUUID{}
-	if err == nil {
-		authorID.UUID = id
-		authorID.Valid = true
-	}
-
-	response, err := cfg.db.ListAllChirps(r.Context(), authorID)
+	response, err := cfg.db.GetAllChirps(r.Context())
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, "Database error", err)
 		return
 	}
 
+	authorID := uuid.Nil
+	authorIDString := r.URL.Query().Get("author_id")
+	if authorIDString != "" {
+		authorID, err = uuid.Parse(authorIDString)
+		if err != nil {
+			respondWithError(w, http.StatusBadRequest, "Invalid author ID", err)
+			return
+		}
+	}
+
 	var chirps []Chirp
 
-	for _, item := range response {
+	for _, dbChirp := range response {
+		if authorID != uuid.Nil && dbChirp.UserID != authorID {
+			continue
+		}
 		chirp := Chirp{
-			ID:        item.ID,
-			CreatedAt: item.CreatedAt,
-			UpdatedAt: item.UpdatedAt,
-			Body:      item.Body,
-			UserID: uuid.NullUUID{
-				UUID:  item.UserID.UUID,
-				Valid: true,
-			},
+			ID:        dbChirp.ID,
+			CreatedAt: dbChirp.CreatedAt,
+			UpdatedAt: dbChirp.UpdatedAt,
+			Body:      dbChirp.Body,
+			UserID:    dbChirp.UserID,
 		}
 		chirps = append(chirps, chirp)
+	}
+
+	order := r.URL.Query().Get("sort")
+
+	if strings.ToLower(order) == "desc" {
+		sort.Slice(chirps, func(i, j int) bool { return chirps[i].CreatedAt.After(chirps[j].CreatedAt) })
+	} else {
+		sort.Slice(chirps, func(i, j int) bool { return chirps[j].CreatedAt.After(chirps[i].CreatedAt) })
 	}
 
 	respondWithJSON(w, http.StatusOK, chirps)
@@ -171,7 +174,7 @@ func (cfg *apiConfig) handlerDeleteChirp(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	if response.UserID.UUID != userID {
+	if response.UserID != userID {
 		respondWithError(w, http.StatusForbidden, "Forbidden", err)
 		return
 	}

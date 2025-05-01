@@ -25,7 +25,7 @@ RETURNING id, created_at, updated_at, body, user_id
 
 type CreateChirpParams struct {
 	Body   string
-	UserID uuid.NullUUID
+	UserID uuid.UUID
 }
 
 func (q *Queries) CreateChirp(ctx context.Context, arg CreateChirpParams) (Chirp, error) {
@@ -51,32 +51,13 @@ func (q *Queries) DeleteChirp(ctx context.Context, id uuid.UUID) error {
 	return err
 }
 
-const getChirp = `-- name: GetChirp :one
+const getAllChirps = `-- name: GetAllChirps :many
 SELECT id, created_at, updated_at, body, user_id FROM chirps
-WHERE id = $1 LIMIT 1
-`
-
-func (q *Queries) GetChirp(ctx context.Context, id uuid.UUID) (Chirp, error) {
-	row := q.db.QueryRowContext(ctx, getChirp, id)
-	var i Chirp
-	err := row.Scan(
-		&i.ID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.Body,
-		&i.UserID,
-	)
-	return i, err
-}
-
-const listAllChirps = `-- name: ListAllChirps :many
-SELECT id, created_at, updated_at, body, user_id FROM chirps
-WHERE user_id = $1
 ORDER BY created_at ASC
 `
 
-func (q *Queries) ListAllChirps(ctx context.Context, userID uuid.NullUUID) ([]Chirp, error) {
-	rows, err := q.db.QueryContext(ctx, listAllChirps, userID)
+func (q *Queries) GetAllChirps(ctx context.Context) ([]Chirp, error) {
+	rows, err := q.db.QueryContext(ctx, getAllChirps)
 	if err != nil {
 		return nil, err
 	}
@@ -102,6 +83,24 @@ func (q *Queries) ListAllChirps(ctx context.Context, userID uuid.NullUUID) ([]Ch
 		return nil, err
 	}
 	return items, nil
+}
+
+const getChirp = `-- name: GetChirp :one
+SELECT id, created_at, updated_at, body, user_id FROM chirps
+WHERE id = $1 LIMIT 1
+`
+
+func (q *Queries) GetChirp(ctx context.Context, id uuid.UUID) (Chirp, error) {
+	row := q.db.QueryRowContext(ctx, getChirp, id)
+	var i Chirp
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Body,
+		&i.UserID,
+	)
+	return i, err
 }
 
 const resetChirps = `-- name: ResetChirps :exec
